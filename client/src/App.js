@@ -1,7 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
+import {useEffect} from "react";
 
 function App() {
+
+  useEffect(()=>{
+    fetch('http://localhost:8080/api/events').then((response)=>{
+      console.log(response.json().data);
+    }).catch(e=>console.log);
+  },[])
+
   return (
     <div className="App">
       <header className="App-header">
