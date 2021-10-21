@@ -24,7 +24,7 @@ const loginUser = (username, password, history) => dispatch => {
             localStorage.setItem("token", resp.data.jwt_token);
             dispatch(Actions.loginUserSuccess(resp.data.data))
         })
-         .then(()=> history.push("/"))
+         .then(()=> history.push("/calendar"))
         .catch(err=>{
              dispatch(Actions.loginUserError(err.response.data))
         })
