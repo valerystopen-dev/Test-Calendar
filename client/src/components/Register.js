@@ -2,9 +2,10 @@
 import * as React from 'react';
 import {Button, Form, Nav, Navbar} from "react-bootstrap";
 import "../styles/Login.css";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import AuthService from "../services/AuthService";
+import {useHistory} from "react-router";
 
 export const Register = (props) => {
 
@@ -12,6 +13,8 @@ export const Register = (props) => {
     const [password, setPassword] = useState("");
 
     const dispatch = useDispatch()
+
+    const  history= useHistory()
 
     const error = useSelector((state) => state.authReducer.error)
 
@@ -53,12 +56,12 @@ export const Register = (props) => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
+                <div style={{marginTop: '20px', color:"red"}}>
+                    {error && error}
+                </div>
                 <br/>
                 <Button class="btn btn-dark"
-                    onClick={() => {
-                        (dispatch(AuthService.addUser(email, password)))
-                        props.history.push("/login");
-                    }}>
+                        onClick={() => dispatch(AuthService.addUser(email, password, history))}>
                     Register
                 </Button>
             </Form>
