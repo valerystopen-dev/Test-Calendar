@@ -35,7 +35,6 @@ export const Register = (props) => {
             </header>
             <body>
             <br/>
-            <p>{error}</p>
             <Form>
                 <Form.Group size="lg" controlId="email">
                     <Form.Label>Username</Form.Label>
@@ -54,8 +53,8 @@ export const Register = (props) => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Button
-                    block size="lg"
+                <br/>
+                <Button class="btn btn-dark"
                     onClick={() => {
                         (dispatch(AuthService.addUser(email, password)))
                         props.history.push("/login");

@@ -15,8 +15,8 @@ export const Login = (props) => {
     const error = useSelector((state) => state.authReducer.error)
 
     useEffect(()=>{
-
-    },[dispatch])
+        console.log(1)
+    },[error])
 
     return (
         <div className="Login">
@@ -55,8 +55,8 @@ export const Login = (props) => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Button
-                    block size="lg"
+                <br/>
+                <Button class="btn btn-dark"
                     onClick={() => {
                         (dispatch(AuthService.loginUser(email, password)))
                         if(error.length!==0){
