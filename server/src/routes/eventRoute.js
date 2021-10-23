@@ -30,21 +30,31 @@ eventRouter.post("/", async (req, res) => {
         if (!event) {
             res.status(400).json( "Wrong data")
         } else {
-            res.status(200).json("Event created successfully");
+            const events = await getEvents(token);
+            if (!events) {
+                res.status(400).json("Client error")
+            }
+            res.status(200).json(events);
         }
     } catch (e) {
         res.status(500).json(e.message);
     }
 })
 
-eventRouter.delete("/:_id", async (req, res) => {
+eventRouter.delete("/", async (req, res) => {
     try {
-        const {_id, token} = req.body;
+        const token = req.header('Authorization');
+        const _id = req.header('_id');
+        console.log("id" + _id);
         const del = await deleteEvent(token, _id);
         if (!del) {
             res.status(400).json({message: "Cannot delete"})
         } else {
-            res.status(400).json({message: "Event deleted successfully"})
+            const events = await getEvents(token);
+            if (!events) {
+                res.status(400).json("Client error")
+            }
+            res.status(200).json(events)
         }
     } catch (e) {
         res.status(500).json({message: `${e.message}`});

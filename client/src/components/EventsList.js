@@ -14,13 +14,11 @@ import {
 import {Button, ButtonGroup} from "@material-ui/core";
 import moment from "moment";
 import {useHistory} from "react-router";
-
+import {EditingState, IntegratedEditing} from "@devexpress/dx-react-scheduler";
 
 export const EventsList = () => {
 
     const events = useSelector((state) => state.eventsReducer.events)
-
-    const [change, setChange]  = useState(0);
 
     const history = useHistory();
 
@@ -38,9 +36,7 @@ export const EventsList = () => {
     useEffect(() => {
         dispatch(EventsService.fetchEvents())
     }, [dispatch])
-    useEffect(() => {
-        dispatch(EventsService.fetchEvents())
-    }, [change])
+
 
 
     function changeStart(){
@@ -99,28 +95,36 @@ export const EventsList = () => {
         const file = new Blob([JSON.stringify(events, hideFields)], {type: 'json'});
         element.href = URL.createObjectURL(file);
         element.download = "myEvents.json";
-        document.body.appendChild(element); // Required for this to work in FireFox
+        document.body.appendChild(element);
         element.click();
     }
 
-
     return (
         <div>
+
             <Paper>
             <Scheduler
-                data={events && events.map(({ start, duration, ...restArgs}) => {
+                data={events && events.map(({ start, duration, id=0, ...restArgs}) => {
+                    id=restArgs._id;
                     const result = {
                         ...makeTodayAppointment(changeStart2(start), changeEnd2(start, duration)),
+                        id,
                         ...restArgs,
                     };
                     return result;
                 })}
                 >
-                    <DayView
+                <EditingState
+                    onCommitChanges={(id)=>{
+                        (dispatch(EventsService.deleteEvent(id)));
+                    }}
+                />
+                <IntegratedEditing />
+                <DayView
                         startDayHour={8}
                         endDayHour={17}
                     />
-                    <Appointments/>
+                <Appointments/>
                     <AppointmentTooltip
                         showDeleteButton/>
                 </Scheduler>
@@ -168,7 +172,7 @@ export const EventsList = () => {
                         {()=> {
                             (dispatch(EventsService.addEvent(title, changeStart(), findDuration())));
                             handleClose()
-                        setChange(change+1)}}>
+                            }}>
                         Add
                     </Button>
                 </Modal.Footer>

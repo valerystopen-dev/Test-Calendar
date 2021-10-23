@@ -17,10 +17,17 @@ const addEvent = (title, start, duration) => dispatch => {
         start,
         duration
     })
-        .then(resp=>dispatch(Actions.fetchEvents(resp.data.data)))
+        .then(resp=>dispatch(Actions.fetchEvents(resp.data)))
+}
+
+const deleteEvent = (id) => dispatch => {
+    const token = localStorage.getItem("token")
+    axios.delete('http://localhost:8080/api/events',{headers: {Authorization: token, _id:id.deleted}})
+        .then(resp=>dispatch(Actions.fetchEvents(resp.data)))
 }
 
 export default {
     fetchEvents,
-    addEvent
+    addEvent,
+    deleteEvent
 }
