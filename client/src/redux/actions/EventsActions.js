@@ -5,7 +5,3 @@ export const fetchEvents = (events) => ({
     payload: events
 })
 
-export const createEvent = (event, time) => ({
-    type: Action.ADD_EVENT,
-    payload: {event, time}
-})

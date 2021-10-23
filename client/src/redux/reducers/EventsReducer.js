@@ -8,7 +8,7 @@ export const eventsReducer = (state = initialState, action) => {
     switch (action.type) {
         case Action.FETCH_EVENTS:
             return {
-                events: action.payload
+                events: action.payload,
             }
         default:
             return state

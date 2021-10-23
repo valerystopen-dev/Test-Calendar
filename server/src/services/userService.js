@@ -1,11 +1,7 @@
 const {userModel} = require ('../models/userModel');
 const jsontoken = require("jsonwebtoken");
 
-const tokenVerification = (authorization) => {
-    if (!authorization) {
-        return null;
-    }
-    const [, token] = authorization.split(" ");
+const tokenVerification = (token) => {
     if (!token) {
         return null;
     }
