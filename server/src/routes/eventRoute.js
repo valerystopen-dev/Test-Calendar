@@ -49,6 +49,7 @@ eventRouter.delete("/", async (req, res) => {
         const del = await deleteEvent(token, _id);
         if (!del) {
             res.status(400).json({message: "Cannot delete"})
+            console.log("aboba")
         } else {
             const events = await getEvents(token);
             if (!events) {

@@ -183,6 +183,7 @@ export const EventsList = () => {
             }}>EXPORT</Button>
             <Button variant="contained" size="large" color="primary" style={{float: "right", marginRight:"1%"}}onClick={()=> {
                 localStorage.clear();
+                console.log("aboba")
                 history.push('/register')
             }}>LOGOUT</Button>
         </div>
